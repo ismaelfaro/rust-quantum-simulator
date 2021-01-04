@@ -14,7 +14,7 @@ Allow to create your Quantum circuits with the basic Quantum Gates, and you can 
         - memory
 
 # Example:
-'''
+
     println!("crating a quantum circuit");
     let mut qc =  QuantumCircuit::new(4);
     qc.h(0);
@@ -26,7 +26,7 @@ Allow to create your Quantum circuits with the basic Quantum Gates, and you can 
     println!("executiing a quantum circuit");
     let mut quantum_simulator =  QuantumSimulator::new(qc);
     quantum_simulator.run();
-'''
+
 
 # TODO:
 - Import Open Quasm 2.0
