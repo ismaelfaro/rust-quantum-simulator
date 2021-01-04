@@ -101,7 +101,7 @@ impl QuantumSimulator{
         println!("{:04b}: {},i{}",i,self.state_vector[i].r,self.state_vector[i].i) 
     }}
 
-  fn get_counts(&mut self, shots) -> 
+  // fn get_counts(&mut self, shots) -> 
 
   pub fn run(&mut self){
     self.initialize_state_vector();
@@ -167,14 +167,22 @@ fn turn(x: ComplexNumber, y: ComplexNumber, angle: f32 )-> (ComplexNumber, Compl
 
 
 fn main() {
- let mut qc =  QuantumCircuit::new(4);
- qc.h(0);
- qc.cx(0,1);
+
+  println!("crating a quantum circuit");
+  let mut qc =  QuantumCircuit::new(4);
+  qc.h(0);
+  qc.cx(0,1);
+  qc.h(0);
+  qc.cx(0,1);
+  qc.x(1);
+  qc.rx(2,PI);
+  // qc.z(0);
 
 // qc.x(1);
 // qc.rx(1,PI);
 // qc.print();
-
- let mut quantum_simulator =  QuantumSimulator::new(qcir);
- quantum_simulator.run();
+  
+  println!("executiing a quantum circuit");
+  let mut quantum_simulator =  QuantumSimulator::new(qc);
+  quantum_simulator.run();
 }
