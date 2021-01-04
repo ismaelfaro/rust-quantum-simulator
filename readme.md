@@ -1,4 +1,4 @@
-# Rust Quantum Simulator 
+# your Rust Quantum Simulator in less of 200 lines of code
 
 This is a very basic implementation of a Quantum Simulator in Rust to learn the basic components.
 Allow to create your Quantum circuits with the basic Quantum Gates, and you can execute it using plain rust
