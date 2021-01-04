@@ -33,12 +33,11 @@ impl QuantumCircuit {
     self.addgate(gate, qubit, 0, 0.0);
   }
   pub fn z(&mut self, qubit: u32 ){
-    let gate = String::from("Z");
-    self.addgate(gate, qubit, 0, 0.0);
+    self.rz(qubit,PI);
   }
   pub fn y(&mut self, qubit: u32 ){
-    let gate = String::from("Y");
-    self.addgate(gate, qubit, 0, 0.0);
+    self.rz(qubit,PI);
+    self.x(qubit);
   }
   pub fn h(&mut self, qubit: u32 ){
     let gate = String::from("H");
@@ -159,7 +158,7 @@ fn superposition(x: ComplexNumber, y: ComplexNumber )-> (ComplexNumber, ComplexN
 }
 
 fn turn(x: ComplexNumber, y: ComplexNumber, angle: f32 )-> (ComplexNumber, ComplexNumber){
-///For two elements of the state_vector, x and y, return cos(theta/2)*x - i*sin(theta/2)*y and cos(theta/2)*y - i*sin(theta/2)*x
+// For two elements of the state_vector, x and y, return cos(theta/2)*x - i*sin(theta/2)*y and cos(theta/2)*y - i*sin(theta/2)*x
   let an = angle/2.0;
   (ComplexNumber {r: x.r * an.cos() + y.i * an.sin(), i: x.i * an.cos() - y.r * an.sin()}, 
   ComplexNumber {r: y.r * an.cos() + x.i * an.sin() , i: y.i * an.cos() - x.r * an.sin()})
@@ -176,7 +175,7 @@ fn main() {
   qc.cx(0,1);
   qc.x(1);
   qc.rx(2,PI);
-  // qc.z(0);
+  qc.z(0);
 
 // qc.x(1);
 // qc.rx(1,PI);
