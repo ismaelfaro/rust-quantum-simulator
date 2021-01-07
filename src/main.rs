@@ -1,12 +1,15 @@
+
+#[warn(unused_variables)]
+
 use std::f32::consts::PI;
 
-mod quantum_simulator;
+mod quantum;
 
 fn main() {
 
-  let qubits_number = 15;
+  let qubits_number = 4;
 
-  let mut qc =  quantum_simulator::QuantumCircuit::new(qubits_number);
+  let mut qc =  quantum::circuit::Circuit::new(qubits_number);
   
   qc.h(0);
   for qubit in 1..qubits_number{
@@ -24,6 +27,6 @@ fn main() {
   qc.print();
   
   println!("Executiing a quantum circuit:");
-  let mut quantum_simulator =  quantum_simulator::QuantumSimulator::new(qc);
+  let mut quantum_simulator =  quantum::simulator::Simulator::new(qc);
   quantum_simulator.run();
 }

@@ -1,73 +1,10 @@
+// Simulator Moudule
 
-use std::f32::consts::PI;
+#[warn(unused_variables)]
+
+use super::circuit;
 
 static R2: f32 = 0.70710678118;
-
-#[derive(Debug)]
-struct QuantumGate{
-  gate:  String,
-  qubit: u32,
-  target:u32,
-  angle: f32,
-}
-
-#[derive(Debug)]
-pub struct QuantumCircuit{
-  number_qubits : u32,
-  circuit : Vec<QuantumGate>,
-}
-
-impl QuantumCircuit {
-
-  pub fn new(number_qubits: u32)->QuantumCircuit{
-    QuantumCircuit {number_qubits, circuit: Vec::new() }  
-  }
-
-  pub fn addgate(&mut self, gate: String, qubit:u32, target:u32, angle:f32 ) {
-    let element = QuantumGate {gate, qubit, target, angle};
-    self.circuit.push(element);
-  }
-
-  pub fn x(&mut self, qubit: u32 ){
-    let gate = String::from("X");
-    self.addgate(gate, qubit, 0, 0.0);
-  }
-  pub fn z(&mut self, qubit: u32 ){
-    self.rz(qubit,PI);
-  }
-  pub fn y(&mut self, qubit: u32 ){
-    self.rz(qubit,PI);
-    self.x(qubit);
-  }
-  pub fn h(&mut self, qubit: u32 ){
-    let gate = String::from("H");
-    self.addgate(gate, qubit, 0, 0.0);
-  }
-  pub fn cx(&mut self, control: u32, target: u32 ){
-    let gate = String::from("CX");
-    self.addgate(gate, control, target, 0.0);
-  }
-  pub fn rx(&mut self, qubit: u32, angle: f32 ){
-    let gate = String::from("RX");
-    self.addgate(gate, qubit, 0, angle);
-  }
-  pub fn ry(&mut self, qubit: u32, angle: f32 ){
-    self.rx(qubit, PI/2.0);
-    self.h(qubit);
-    self.rx(qubit, angle);
-    self.h(qubit);
-    self.rx(qubit, -PI/2.0);
-  }
-  pub fn rz(&mut self, qubit: u32, angle: f32 ){
-    self.h(qubit);
-    self.rx(qubit, angle);
-    self.h(qubit);
-  }
-  pub fn print(&mut self){
-    println!("Qubits: {:?}",self.number_qubits);
-    println!("{:?}",self.circuit);
-  }
-}
 
 #[derive(Debug)]
 struct ComplexNumber{
@@ -76,27 +13,27 @@ struct ComplexNumber{
 }
 
 #[derive(Debug)]
-pub struct QuantumSimulator{
-  circuit : Vec<QuantumGate>,
+pub struct Simulator{
+  circuit : Vec<circuit::Gate>,
   number_qubits: u32,
   bits: u32,
   state_vector: Vec<ComplexNumber>
 }
 
-impl QuantumSimulator{
-  pub fn new(circuit:QuantumCircuit)->QuantumSimulator{
-    QuantumSimulator {circuit: circuit.circuit, number_qubits: circuit.number_qubits, bits: circuit.number_qubits, state_vector:Vec::new() }  
+impl Simulator{
+  pub fn new(circuit:circuit::Circuit)->Simulator{
+    Simulator {circuit: circuit.circuit, number_qubits: circuit.number_qubits, bits: circuit.number_qubits, state_vector:Vec::new() }  
   }
 
   fn initialize_state_vector(&mut self){
-    for i in 1..= (2u32.pow(self.number_qubits)){
+    for _ in 1..= (2u32.pow(self.number_qubits)){
         self.state_vector.push(ComplexNumber {r:0.0,i:0.0})}
     self.state_vector[0] = ComplexNumber {r:1.0,i:0.0}  
   }
   
   fn print_state_vector(&mut self){
-    for i in 0..= (2u32.pow(self.number_qubits) as usize)-1 {
-        println!("{:04b}: {},i{}",i,self.state_vector[i].r,self.state_vector[i].i) 
+    for index in 0..2u32.pow(self.number_qubits) as usize {
+        println!("{:04b}: {},i{}",index,self.state_vector[index].r,self.state_vector[index].i) 
     }}
 
   // fn get_counts(&mut self, shots) -> 
